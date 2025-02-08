@@ -1,4 +1,4 @@
-name: objectbox_example
+name: realm_example
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -9,17 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  objectbox: ^4.1.0
-  objectbox_flutter_libs: ^4.1.0
+  realm: ^20.0.1
 
-  path_provider: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  build_runner: ^2.4.9
-  objectbox_generator: ^4.1.0
-  test: ^1.24.9
 
 flutter:
   uses-material-design: true

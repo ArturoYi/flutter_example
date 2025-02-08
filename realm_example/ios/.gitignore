@@ -13,7 +13,6 @@ Icon?
 **/Pods/
 **/.symlinks/
 profile
-*.lock
 xcuserdata
 **/.generated/
 Flutter/App.framework

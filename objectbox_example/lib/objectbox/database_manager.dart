@@ -1,5 +1,6 @@
 import 'package:objectbox_example/models/task.dart';
 import 'package:objectbox_example/objectbox.g.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DatabaseManager {
   late final Store _store;
@@ -15,7 +16,9 @@ class DatabaseManager {
   }
 
   static Future<DatabaseManager> create() async {
-    final store = await openStore();
+    final store = await openStore(
+      directory: (await getApplicationDocumentsDirectory()).path,
+    );
     return DatabaseManager._create(store);
   }
 
