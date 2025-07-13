@@ -1,108 +1,217 @@
-# Realm Flutter 示例项目
+# Realm 数据库示例
 
-这是一个演示如何在Flutter项目中使用Realm数据库的示例项目。Realm是一个现代化的移动数据库，提供了简单、快速且功能强大的数据存储解决方案。
+这是一个使用 [Realm](https://realm.io/) 数据库的 Flutter 示例项目，展示了如何在 Flutter 应用中实现跨平台的本地数据存储和同步功能。
 
-## 项目特点
+## 📋 项目简介
 
-- 实时同步：支持实时数据同步和离线存储
-- 跨平台：完整支持iOS、Android和其他主流平台
-- 响应式：内置数据变化通知机制
-- 简单易用：直观的API设计，无需编写复杂SQL
+Realm 是一个跨平台的移动数据库引擎，提供对象存储和实时同步功能，具有以下特点：
 
-## 环境要求
+- 🌐 **跨平台一致性**：支持 Android、iOS、Flutter 等多个平台
+- 🔄 **实时同步**：支持云端数据同步
+- 🛡️ **数据加密**：内置加密功能保护敏感数据
+- 🎯 **对象 API**：直观的对象导向数据访问
+- ⚡ **高性能**：优化的查询引擎和内存管理
 
-- Flutter SDK 3.0.0 或更高版本
-- Dart SDK 2.17.0 或更高版本
+## 🚀 功能特性
+
+本示例实现了以下功能：
+
+- ✅ **人员管理**：创建、读取、更新、删除人员信息
+- ✅ **地址关联**：一对一关系映射（Person 和 Address）
+- ✅ **数据持久化**：数据自动保存到本地数据库
+- ✅ **版本迁移**：数据库架构版本管理
+- ✅ **响应式 UI**：数据变更自动更新界面
+
+## 📱 应用截图
+
+应用提供了一个人员信息管理界面：
+- 人员列表显示（姓名、年龄、邮箱、地址信息）
+- 编辑人员信息功能
+- 删除人员功能
+- 添加新人员（自动关联地址信息）
+
+## 🛠️ 技术栈
+
+- **Flutter**: 3.3.4+
+- **Realm**: 20.0.1
+- **Dart**: 3.3.4+
+
+## 📦 安装与运行
+
+### 环境要求
+- Flutter SDK ≥ 3.3.4
+- Dart SDK ≥ 3.3.4
 - Android Studio / VS Code
-- Android SDK（用于Android开发）
-- Xcode 13.0或更高版本（用于iOS/macOS开发）
 
-## 快速开始
+### 安装步骤
 
-1. 克隆项目：
+1. **克隆项目**
 ```bash
-git clone [项目地址]
+git clone <repository-url>
 cd realm_example
 ```
 
-2. 安装依赖：
+2. **安装依赖**
 ```bash
 flutter pub get
 ```
 
-3. 运行项目：
+3. **运行项目**
 ```bash
 flutter run
 ```
 
-## 基本用法
+## 📁 项目结构
 
-### 1. 定义数据模型
+```
+realm_example/
+├── lib/
+│   ├── main.dart                  # 主应用入口
+│   ├── models/
+│   │   ├── person.dart            # Person 实体类定义
+│   │   └── person.realm.dart      # Realm 生成的代码
+│   ├── database/
+│   │   └── database_manager.dart  # 数据库管理器
+│   └── repositories/
+│       └── person_repository.dart # Person 仓库类
+├── pubspec.yaml                   # 项目依赖配置
+└── README.md                      # 项目说明文档
+```
 
-在`lib/models`目录下定义你的数据模型类，例如：
+## 🔧 核心组件
 
+### 1. 数据模型
+
+#### Person 模型
 ```dart
-class Task extends RealmObject {
+@RealmModel()
+class _Person {
   @PrimaryKey()
-  late ObjectId id;
+  late String id;
   
-  late String title;
-  String? description;
-  late bool isCompleted;
+  late String name;
+  late int age;
+  String? email;
+  
+  late _Address? addresses;
 }
 ```
 
-### 2. 数据操作
-
+#### Address 模型
 ```dart
-// 初始化Realm
-final config = Configuration.local([Task.schema]);
-final realm = Realm(config);
-
-// 插入数据
-realm.write(() {
-  realm.add(Task()
-    ..title = '完成作业'
-    ..isCompleted = false);
-});
-
-// 查询数据
-final tasks = realm.all<Task>();
-
-// 更新数据
-realm.write(() {
-  task.isCompleted = true;
-});
-
-// 删除数据
-realm.write(() {
-  realm.delete(task);
-});
+@RealmModel()
+class _Address {
+  @PrimaryKey()
+  late String id;
+  
+  late String street;
+  late String city;
+  late String country;
+  String? postalCode;
+}
 ```
 
-## 进阶功能
+### 2. 数据库管理器
 
-- 实时数据同步
-- 数据加密
-- 复杂查询和排序
-- 数据迁移
-- 数据订阅
+负责 Realm 数据库的初始化、配置和版本管理。
 
-## 常见问题
+### 3. 仓库层
 
-1. **Q: 如何实现数据同步？**
-   A: 需要配置MongoDB Realm后端服务，并在应用中设置同步配置。
+封装数据访问逻辑，提供 CRUD 操作接口。
 
-2. **Q: 数据库文件存储在哪里？**
-   A: 在应用的文档目录下，可以通过Configuration配置自定义路径。
+## 💡 关键特性说明
 
-3. **Q: 如何处理并发访问？**
-   A: Realm自动处理并发访问，使用write事务确保数据一致性。
+### 关系映射
+- **一对一关系**：Person 和 Address 之间的一对一关联
+- **可选关系**：Address 字段为可选，支持空值
 
-## 贡献
+### 版本管理
+- 通过 `schemaVersion` 管理数据库版本
+- 使用 `migrationCallback` 处理架构变更
+- 支持数据迁移和字段变更
 
-欢迎提交问题和改进建议！
+### 数据同步
+- 支持 Realm 云服务同步
+- 需要额外的身份验证和配置
+- 本示例专注于本地数据存储
 
-## 许可证
+## 🔍 使用示例
 
-本项目采用 MIT 许可证 - 详见 LICENSE 文件
+### 创建人员
+```dart
+final person = _personRepository.createPerson(
+  '张三', 
+  25, 
+  email: 'zhangsan@example.com'
+);
+```
+
+### 添加地址信息
+```dart
+_personRepository.addAddress(
+  person,
+  '某某路某某号',
+  '上海',
+  '中国',
+  postalCode: '200000',
+);
+```
+
+### 查询所有人员
+```dart
+List<Person> persons = _personRepository.getAllPersons();
+```
+
+### 更新人员信息
+```dart
+_personRepository.updatePerson(
+  person,
+  name: '${person.name}(更新)',
+  age: person.age + 1,
+);
+```
+
+### 删除人员
+```dart
+_personRepository.deletePerson(person);
+```
+
+## 🔄 数据库版本迁移
+
+### 版本配置
+```dart
+final config = Configuration.local(
+  [Person.schema, Address.schema],
+  schemaVersion: 1,
+  migrationCallback: (migration, oldSchemaVersion) {
+    // 处理版本迁移逻辑
+  },
+);
+```
+
+### 迁移策略
+- 增加 `schemaVersion` 触发迁移
+- 在 `migrationCallback` 中处理字段变更
+- 支持字段重命名、类型转换等操作
+
+## ⚠️ 注意事项
+
+1. **模型定义**：使用 `@RealmModel()` 注解定义模型
+2. **主键设置**：每个模型都需要 `@PrimaryKey()` 字段
+3. **关系管理**：注意关系的可选性和约束
+4. **版本迁移**：架构变更时需要手动处理迁移逻辑
+5. **同步功能**：需要额外的 Realm 云服务配置
+
+## 🔗 相关资源
+
+- [Realm 官方文档](https://docs.mongodb.com/realm/)
+- [Realm Flutter SDK](https://github.com/realm/realm-dart)
+- [Flutter 官方文档](https://docs.flutter.dev/)
+
+## 📄 许可证
+
+本项目采用 MIT 许可证。
+
+---
+
+**返回 [项目总览](../README.md)**

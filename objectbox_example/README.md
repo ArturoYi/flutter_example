@@ -1,101 +1,176 @@
-# ObjectBox Flutter 示例项目
+# ObjectBox 数据库示例
 
-这是一个演示如何在Flutter项目中使用ObjectBox数据库的示例项目。ObjectBox是一个高性能的NoSQL数据库，专为移动和物联网应用设计。
+这是一个使用 [ObjectBox](https://objectbox.io/) 数据库的 Flutter 示例项目，展示了如何在 Flutter 应用中实现高性能的本地数据存储。
 
-## 项目特点
+## 📋 项目简介
 
-- 高性能：ObjectBox提供极快的读写速度
-- 易用性：简单直观的API设计
-- 类型安全：完全支持Dart类型系统
-- 跨平台：支持Android、iOS、macOS、Linux和Windows
+ObjectBox 是一个专为移动和物联网设备设计的高性能 NoSQL 对象数据库，具有以下特点：
 
-## 环境要求
+- ⚡ **极速性能**：比 SQLite 快 10 倍
+- 💾 **内存占用小**：高效的内存管理
+- 🎯 **纯 Dart 实现**：无需本地桥接，开发体验更佳
+- 🔒 **强类型 API**：编译时类型安全
+- 🔄 **自动版本管理**：简化数据库迁移
 
-- Flutter SDK 3.0.0 或更高版本
-- Dart SDK 2.17.0 或更高版本
+## 🚀 功能特性
+
+本示例实现了以下功能：
+
+- ✅ **任务管理**：创建、读取、更新、删除任务
+- ✅ **状态切换**：任务完成状态的实时切换
+- ✅ **数据持久化**：数据自动保存到本地数据库
+- ✅ **版本管理**：通过 UID 管理字段变更
+- ✅ **响应式 UI**：数据变更自动更新界面
+
+## 📱 应用截图
+
+应用提供了一个简洁的任务管理界面：
+- 任务列表显示（ID、标题、完成状态）
+- 删除任务功能
+- 切换任务完成状态
+- 添加新任务
+
+## 🛠️ 技术栈
+
+- **Flutter**: 3.3.4+
+- **ObjectBox**: 4.1.0
+- **Dart**: 3.3.4+
+
+## 📦 安装与运行
+
+### 环境要求
+- Flutter SDK ≥ 3.3.4
+- Dart SDK ≥ 3.3.4
 - Android Studio / VS Code
-- Android SDK（适用于Android开发）
-- Xcode（适用于iOS/macOS开发）
 
-## 快速开始
+### 安装步骤
 
-1. 克隆项目：
+1. **克隆项目**
 ```bash
-git clone [项目地址]
+git clone <repository-url>
 cd objectbox_example
 ```
 
-2. 安装依赖：
+2. **安装依赖**
 ```bash
 flutter pub get
 ```
 
-3. 运行项目：
+3. **生成 ObjectBox 代码**
+```bash
+flutter packages pub run build_runner build
+```
+
+4. **运行项目**
 ```bash
 flutter run
 ```
 
-## 基本用法
+## 📁 项目结构
 
-### 1. 定义数据模型
+```
+objectbox_example/
+├── lib/
+│   ├── main.dart                  # 主应用入口
+│   ├── objectbox.g.dart           # ObjectBox 生成的代码
+│   ├── objectbox-model.json       # ObjectBox 模型配置
+│   ├── models/
+│   │   └── task.dart              # Task 实体类定义
+│   ├── objectbox/
+│   │   └── database_manager.dart  # 数据库管理器
+│   └── repositories/
+│       └── task_repository.dart   # Task 仓库类
+├── pubspec.yaml                   # 项目依赖配置
+└── README.md                      # 项目说明文档
+```
 
-在`lib/models`目录下定义你的数据模型类，例如：
+## 🔧 核心组件
+
+### 1. 数据模型 (Task)
 
 ```dart
 @Entity()
 class Task {
   @Id()
-  int id = 0;
-  
+  int id;
+
+  @Property(uid: 1)
   String title;
+  
+  @Property(uid: 2)
   String? description;
+  
+  @Property(uid: 3)
   bool isCompleted;
   
-  Task({required this.title, this.description, this.isCompleted = false});
+  @Property(type: PropertyType.date, uid: 4)
+  DateTime createdAt;
 }
 ```
 
-### 2. 数据操作
+### 2. 数据库管理器
 
+负责 ObjectBox 数据库的初始化和配置。
+
+### 3. 仓库层
+
+封装数据访问逻辑，提供 CRUD 操作接口。
+
+## 💡 关键特性说明
+
+### 版本管理
+ObjectBox 通过 `uid` 参数管理字段变更：
+- 每个字段都有唯一的 `uid`
+- 字段变更时只需修改 `uid` 值
+- 框架自动处理大部分版本迁移情况
+
+### 性能优化
+- 使用 `@Id()` 注解定义主键
+- 通过 `@Property()` 注解配置字段属性
+- 支持日期类型和可选字段
+
+## 🔍 使用示例
+
+### 添加任务
 ```dart
-// 插入数据
-final task = Task(title: '完成作业');
-final id = objectBox.taskBox.put(task);
-
-// 查询数据
-final tasks = objectBox.taskBox.getAll();
-
-// 更新数据
-task.isCompleted = true;
-objectBox.taskBox.put(task);
-
-// 删除数据
-objectBox.taskBox.remove(task.id);
+taskRepository.addTask(
+  Task(title: "新任务标题")
+);
 ```
 
-## 进阶功能
+### 查询所有任务
+```dart
+List<Task> tasks = taskRepository.getAllTasks();
+```
 
-- 关系查询
-- 异步操作
-- 数据监听
-- 事务处理
-- 数据迁移
+### 更新任务
+```dart
+task.isCompleted = true;
+taskRepository.updateTask(task);
+```
 
-## 常见问题
+### 删除任务
+```dart
+taskRepository.deleteTask(taskId);
+```
 
-1. **Q: 如何处理数据库版本更新？**
-   A: ObjectBox会自动处理简单的模式更改。对于复杂的更改，需要手动迁移数据。
+## ⚠️ 注意事项
 
-2. **Q: 是否支持加密？**
-   A: 是的，ObjectBox支持数据库加密，需要在初始化时配置。
+1. **代码生成**：修改模型后需要重新运行 `build_runner`
+2. **版本管理**：字段类型改变时需要特别处理
+3. **初始化**：确保在使用前完成数据库初始化
+4. **UID 管理**：每个字段的 UID 必须唯一且不可重复使用
 
-3. **Q: 如何优化查询性能？**
-   A: 使用索引、限制查询结果数量、避免不必要的关系查询等。
+## 🔗 相关资源
 
-## 贡献
+- [ObjectBox 官方文档](https://docs.objectbox.io/)
+- [ObjectBox Flutter 示例](https://github.com/objectbox/objectbox-dart/tree/main/objectbox_flutter_libs)
+- [Flutter 官方文档](https://docs.flutter.dev/)
 
-欢迎提交问题和改进建议！
+## 📄 许可证
 
-## 许可证
+本项目采用 MIT 许可证。
 
-本项目采用 MIT 许可证 - 详见 LICENSE 文件
+---
+
+**返回 [项目总览](../README.md)**
