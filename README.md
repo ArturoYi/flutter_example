@@ -12,12 +12,18 @@
 | [Realm](./realm_example/README.md) | 20.2.0 | 跨平台移动数据库引擎示例 | [查看详情](./realm_example/README.md) |
 | [Drift](./drift_example/README.md) | 2.35.3 | 基于 SQLite 的类型安全关系库示例 | [查看详情](./drift_example/README.md) |
 | [sqflite](./sqflite_example/README.md) | 2.4.5 | SQLite 插件的待办示例 | [查看详情](./sqflite_example/README.md) |
+| [Provider](./provider_example/README.md) | 6.1.5+1 | InheritedWidget 风格的状态管理 | [查看详情](./provider_example/README.md) |
+| [GetX](./getx_example/README.md) | 4.7.3 | 响应式状态、依赖注入和路由 | [查看详情](./getx_example/README.md) |
+| [Bloc / Cubit](./bloc_example/README.md) | bloc 9.2.1 | 事件、Cubit 和可追踪的状态变化 | [查看详情](./bloc_example/README.md) |
+| [Riverpod](./riverpod_example/README.md) | 3.4.3 | 不依赖 BuildContext 的 Provider | [查看详情](./riverpod_example/README.md) |
+| [Async Redux](./redux_example/README.md) | 29.2.3 | 单一状态树。原版 redux 包无法在 Dart 3 上解析 | [查看详情](./redux_example/README.md) |
+| [Signals](./signals_example/README.md) | 7.1.0 | signal、computed 和 effect | [查看详情](./signals_example/README.md) |
 
 ## 🚀 快速开始
 
 ### 环境要求
-- **Flutter SDK**: Drift 和 sqflite 示例需要 3.47+。ObjectBox 需要 3.29+，Realm 需要 3.27+
-- **Dart SDK**: Drift 和 sqflite 示例需要 3.13+。ObjectBox 需要 3.7+，Realm 需要 3.6+
+- **Flutter SDK**: 状态管理、Drift 和 sqflite 示例需要 3.47+。ObjectBox 需要 3.29+，Realm 需要 3.27+
+- **Dart SDK**: 状态管理、Drift 和 sqflite 示例需要 3.13+。ObjectBox 需要 3.7+，Realm 需要 3.6+
 - **开发工具**: Android Studio / VS Code
 - **Git**
 
@@ -46,6 +52,7 @@ cd flutter_example
 ./scripts/demo.sh clean realm_example
 ./scripts/demo.sh install drift_example
 ./scripts/demo.sh install sqflite_example
+./scripts/demo.sh install provider_example
 ```
 
 `install` 会在每个示例里执行 `flutter pub get`。示例自带 `.fvm` 时使用该 Flutter SDK，否则使用当前环境中的 Flutter。
@@ -96,6 +103,29 @@ cd sqflite_example
 flutter pub get
 flutter run
 ```
+
+### 运行状态管理示例
+
+六个示例做同一组事情：局部刷新、待办和派生状态、异步加载、登录与购物车、页面级作用域。每个示例的概览页和 README 写了该方案的优势、劣势，以及这里用到的 API。
+
+| 目录 | 库 |
+|------|----|
+| `provider_example` | provider 6.1.5+1 |
+| `getx_example` | get 4.7.3（稳定版，不含 5.0 预发布） |
+| `bloc_example` | bloc 9.2.1、flutter_bloc 9.1.1 |
+| `riverpod_example` | flutter_riverpod 3.4.3 |
+| `redux_example` | async_redux 29.2.3 |
+| `signals_example` | signals 7.1.0 |
+
+`redux` 5.0.0 和 `flutter_redux` 0.10.0 的 SDK 约束仍是 Dart 2，当前 Flutter 不能依赖它们，所以 Redux 示例用 Async Redux。
+
+```bash
+cd provider_example
+flutter pub get
+flutter run
+```
+
+把目录换成 `getx_example`、`bloc_example`、`riverpod_example`、`redux_example` 或 `signals_example` 即可。这些示例需要 Flutter 3.47+（Dart 3.13+）。
 
 ## 🤝 贡献指南
 
