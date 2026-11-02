@@ -9,6 +9,22 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
+// realm 20.2.0 still compiles its Android library against API 31, which
+// Android Gradle Plugin 9 rejects because its AndroidX dependencies need 34+.
+// Register this before evaluationDependsOn, which evaluates :app immediately.
+subprojects { subproject ->
+    subproject.afterEvaluate {
+        def androidExt = subproject.extensions.findByName("android")
+        if (androidExt != null && androidExt.hasProperty("compileSdk")) {
+            def current = androidExt.compileSdk
+            if (current == null || current < 36) {
+                androidExt.compileSdk = 36
+            }
+        }
+    }
+}
+
 subprojects {
     project.evaluationDependsOn(':app')
 }

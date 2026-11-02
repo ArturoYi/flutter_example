@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'person.dart';
@@ -6,28 +7,29 @@ part of 'person.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// coverage:ignore-file
 // ignore_for_file: type=lint
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
-    String id,
+    ObjectId id,
     String name,
     int age, {
     String? email,
-    Address? addresses,
+    Address? address,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set(this, 'age', age);
     RealmObjectBase.set(this, 'email', email);
-    RealmObjectBase.set(this, 'addresses', addresses);
+    RealmObjectBase.set(this, 'address', address);
   }
 
   Person._();
 
   @override
-  String get id => RealmObjectBase.get<String>(this, 'id') as String;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(String value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -45,11 +47,11 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   set email(String? value) => RealmObjectBase.set(this, 'email', value);
 
   @override
-  Address? get addresses =>
-      RealmObjectBase.get<Address>(this, 'addresses') as Address?;
+  Address? get address =>
+      RealmObjectBase.get<Address>(this, 'address') as Address?;
   @override
-  set addresses(covariant Address? value) =>
-      RealmObjectBase.set(this, 'addresses', value);
+  set address(covariant Address? value) =>
+      RealmObjectBase.set(this, 'address', value);
 
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
@@ -68,7 +70,7 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
       'name': name.toEJson(),
       'age': age.toEJson(),
       'email': email.toEJson(),
-      'addresses': addresses.toEJson(),
+      'address': address.toEJson(),
     };
   }
 
@@ -86,7 +88,7 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
           fromEJson(name),
           fromEJson(age),
           email: fromEJson(ejson['email']),
-          addresses: fromEJson(ejson['addresses']),
+          address: fromEJson(ejson['address']),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -96,11 +98,11 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
     RealmObjectBase.registerFactory(Person._);
     register(_toEJson, _fromEJson);
     return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
-      SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),
       SchemaProperty('email', RealmPropertyType.string, optional: true),
-      SchemaProperty('addresses', RealmPropertyType.object,
+      SchemaProperty('address', RealmPropertyType.object,
           optional: true, linkTarget: 'Address'),
     ]);
   }();
@@ -111,7 +113,7 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
 
 class Address extends _Address with RealmEntity, RealmObjectBase, RealmObject {
   Address(
-    String id,
+    ObjectId id,
     String street,
     String city,
     String country, {
@@ -127,9 +129,9 @@ class Address extends _Address with RealmEntity, RealmObjectBase, RealmObject {
   Address._();
 
   @override
-  String get id => RealmObjectBase.get<String>(this, 'id') as String;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(String value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get street => RealmObjectBase.get<String>(this, 'street') as String;
@@ -199,7 +201,7 @@ class Address extends _Address with RealmEntity, RealmObjectBase, RealmObject {
     RealmObjectBase.registerFactory(Address._);
     register(_toEJson, _fromEJson);
     return const SchemaObject(ObjectType.realmObject, Address, 'Address', [
-      SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('street', RealmPropertyType.string),
       SchemaProperty('city', RealmPropertyType.string),
       SchemaProperty('country', RealmPropertyType.string),

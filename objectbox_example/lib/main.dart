@@ -3,8 +3,16 @@ import 'package:objectbox_example/models/task.dart';
 import 'package:objectbox_example/objectbox/database_manager.dart';
 import 'package:objectbox_example/repositories/task_repository.dart';
 
-// 此页面为UI页面
-void main() {
+late final TaskRepository taskRepository;
+
+Future<void> main() async {
+  // ObjectBox 需要先拿到应用文档目录。
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final databaseManager = await DatabaseManager.create();
+  taskRepository = TaskRepository(databaseManager);
+  await taskRepository.seedIfEmpty();
+
   runApp(const MainApp());
 }
 
@@ -13,8 +21,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: TestObjectBoxWidget(),
+    return MaterialApp(
+      title: 'ObjectBox',
+      theme: ThemeData(colorSchemeSeed: Colors.teal),
+      home: const TestObjectBoxWidget(),
     );
   }
 }
@@ -27,129 +37,141 @@ class TestObjectBoxWidget extends StatefulWidget {
 }
 
 class _TestObjectBoxWidgetState extends State<TestObjectBoxWidget> {
-  //所有任务
-  List<Task> taskList = [];
-  late TaskRepository taskRepository;
+  final _titleController = TextEditingController();
+  late final Stream<List<Task>> _tasks = taskRepository.watchAllTasks();
 
   @override
-  void didChangeDependencies() {
-    init();
-    super.didChangeDependencies();
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
   }
 
-  //初始化方法
-  Future<void> init() async {
-    DatabaseManager databaseManager = await DatabaseManager.create();
-    taskRepository = TaskRepository(databaseManager);
-    getAllTasks();
-  }
-
-  //获取所有任务
-  Future<void> getAllTasks() async {
-    setState(() {
-      taskList = taskRepository.getAllTasks();
-    });
+  Future<void> _addTask() async {
+    final title = _titleController.text.trim();
+    if (title.isEmpty) return;
+    await taskRepository.addTask(Task(title: title));
+    _titleController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("ObjectBox"),
-      ),
+      appBar: AppBar(title: const Text('ObjectBox')),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemBuilder: (context, index) {
-                Task item = taskList[index];
-                return Container(
-                  width: double.infinity,
-                  height: 70,
-                  decoration: const BoxDecoration(
-                    color: Colors.black12,
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "id:${item.id}",
-                            ),
-                            Text(
-                              "title:${item.title}",
-                            ),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          taskRepository.deleteTask(item.id);
-                          getAllTasks();
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      const Text("isCompleted:"),
-                      Switch(
-                        value: item.isCompleted,
-                        onChanged: (value) {
-                          item.isCompleted = !item.isCompleted;
-                          taskRepository.updateTask(item);
-                          getAllTasks();
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  width: double.infinity,
-                  height: 16,
-                );
-              },
-              itemCount: taskList.length,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: TextField(
+              key: const Key('input'),
+              controller: _titleController,
+              decoration: const InputDecoration(
+                hintText: '输入新任务',
+                border: OutlineInputBorder(),
+              ),
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) => _addTask(),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(16),
-            child: const Text(
-              "实现了基本的增删查改的例子，复杂的需要自己探索，最重要的一点，版本升级和降级，找了网上大量ObjectBox的教程，说是不需要手动管理版本，当涉及字段的改变（更改或删除时），只需要给一个uid即可，但是好奇类型改变的情况是否适用，目前没遇到这种场景，需要继续探索。",
-              style: TextStyle(
-                color: Colors.black,
+          const Padding(
+            padding: EdgeInsets.only(right: 20, bottom: 8),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                '回车或点加号添加任务',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
           ),
-          const SizedBox(
-            width: double.infinity,
-            height: 70,
+          Expanded(
+            child: StreamBuilder<List<Task>>(
+              stream: _tasks,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('读取失败：${snapshot.error}'));
+                }
+                final tasks = snapshot.data;
+                if (tasks == null) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (tasks.isEmpty) {
+                  return const Center(child: Text('还没有任务'));
+                }
+                return ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  itemCount: tasks.length,
+                  separatorBuilder:
+                      (context, index) => const Divider(height: 1),
+                  itemBuilder: (context, index) {
+                    final item = tasks[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.title,
+                                  key: Key('list_item_$index'),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    decoration:
+                                        item.isCompleted
+                                            ? TextDecoration.lineThrough
+                                            : null,
+                                    color:
+                                        item.isCompleted
+                                            ? Colors.black45
+                                            : null,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'id: ${item.id}  ·  ${_formatCreatedAt(item.createdAt)}',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Switch(
+                            value: item.isCompleted,
+                            onChanged: (value) {
+                              item.isCompleted = value;
+                              taskRepository.updateTask(item);
+                            },
+                          ),
+                          IconButton(
+                            onPressed: () => taskRepository.deleteTask(item.id),
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          taskRepository.addTask(
-            Task(
-              title: taskList.length.toString(),
-            ),
-          );
-          getAllTasks();
-        },
+        key: const Key('submit'),
+        onPressed: _addTask,
         child: const Icon(Icons.add),
       ),
     );
   }
+}
+
+String _formatCreatedAt(DateTime date) {
+  String two(int value) => value.toString().padLeft(2, '0');
+  return '${date.year}-${two(date.month)}-${two(date.day)} '
+      '${two(date.hour)}:${two(date.minute)}';
 }

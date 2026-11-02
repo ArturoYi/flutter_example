@@ -1,4 +1,5 @@
-platform :osx, '10.14'
+# ObjectBox requires macOS 11. The current Flutter template requires 12.0.
+platform :osx, '12.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'

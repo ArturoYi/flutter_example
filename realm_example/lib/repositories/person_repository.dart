@@ -3,56 +3,56 @@ import 'package:realm_example/database/database_manager.dart';
 import 'package:realm_example/models/person.dart';
 
 class PersonRepository {
-  final DatabaseManager _databaseManager;
-  late final Realm _realm;
+  final Realm _realm;
 
-  PersonRepository(this._databaseManager) {
-    _realm = _databaseManager.realm;
-  }
+  PersonRepository(DatabaseManager databaseManager)
+      : _realm = databaseManager.realm;
 
-  // 创建新的Person对象
-  Person createPerson(String name, int age, {String? email}) {
-    final person = Person(
-      ObjectId().toString(),
-      name,
-      age,
-      email: email,
-    );
-    _realm.write(() => _realm.add(person));
-    return person;
-  }
-
-  // 添加地址到Person
-  void addAddress(Person person, String street, String city, String country,
-      {String? postalCode}) {
-    final address = Address(
-      ObjectId().toString(),
-      street,
-      city,
-      country,
-      postalCode: postalCode,
-    );
-    _realm.write(() {
-      person.addresses = address;
+  /// 一次写入同时保存人员和地址。关联对象可以放进构造函数，由 `add` 一起入库。
+  Person createPerson(
+    String name,
+    int age, {
+    String? email,
+    Address? address,
+  }) {
+    return _realm.write(() {
+      return _realm
+          .add(Person(ObjectId(), name, age, email: email, address: address));
     });
   }
 
-  // 获取所有Person对象
+  void addAddress(
+    Person person,
+    String street,
+    String city,
+    String country, {
+    String? postalCode,
+  }) {
+    _realm.write(() {
+      final previous = person.address;
+      person.address = Address(
+        ObjectId(),
+        street,
+        city,
+        country,
+        postalCode: postalCode,
+      );
+      if (previous != null) {
+        _realm.delete(previous);
+      }
+    });
+  }
+
   List<Person> getAllPersons() {
-    return _realm.all<Person>().toList();
+    return _realm.query<Person>('TRUEPREDICATE SORT(name ASC)').toList();
   }
 
-  // 根据ID查找Person
-  Person? getPersonById(String id) {
-    return _realm.find<Person>(id);
-  }
+  Person? getPersonById(ObjectId id) => _realm.find<Person>(id);
 
-  // 根据名字查找Person
   List<Person> findPersonsByName(String name) {
-    return _realm.query<Person>(r'name == "$0"', [name]).toList();
+    return _realm.query<Person>(r'name == $0', [name]).toList();
   }
 
-  // 更新Person信息
   void updatePerson(Person person, {String? name, int? age, String? email}) {
     _realm.write(() {
       if (name != null) person.name = name;
@@ -61,18 +61,21 @@ class PersonRepository {
     });
   }
 
-  // 删除Person
   void deletePerson(Person person) {
     _realm.write(() {
+      final address = person.address;
+      person.address = null;
+      if (address != null) {
+        _realm.delete(address);
+      }
       _realm.delete(person);
     });
   }
 
-  // 删除Person的地址
-  void deleteAddress(Person person, Address address) {
-    _realm.write(() {
-      person.addresses = null;
-      _realm.delete(address);
-    });
+  /// 先发出当前结果，之后由 `RealmResults.changes` 在数据变化时再发。
+  Stream<List<Person>> watchAllPersons() async* {
+    final results = _realm.query<Person>('TRUEPREDICATE SORT(name ASC)');
+    yield results.toList();
+    yield* results.changes.map((changes) => changes.results.toList());
   }
 }
