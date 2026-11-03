@@ -105,6 +105,7 @@ clean_demo() {
     macos/Flutter/ephemeral
     linux/flutter/ephemeral
     windows/flutter/ephemeral
+    rust/target
   )
 
   echo "==> 清理依赖与缓存: $(basename "$demo")"

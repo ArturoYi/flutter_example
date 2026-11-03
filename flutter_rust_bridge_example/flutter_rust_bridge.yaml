@@ -1,0 +1,6 @@
+rust_input: crate::api
+rust_root: rust/
+dart_output: lib/src/rust
+# 演示里的整数都放得进 Dart 的 int。默认会把 i64 变成 PlatformInt64，
+# Web 上是 BigInt，手机和桌面是 int。打开这一项后两边都是 int。
+type_64bit_int: true

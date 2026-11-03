@@ -18,14 +18,16 @@
 | [Riverpod](./riverpod_example/README.md) | 3.4.3 | 不依赖 BuildContext 的 Provider | [查看详情](./riverpod_example/README.md) |
 | [Async Redux](./redux_example/README.md) | 29.2.3 | 单一状态树。原版 redux 包无法在 Dart 3 上解析 | [查看详情](./redux_example/README.md) |
 | [Signals](./signals_example/README.md) | 7.1.0 | signal、computed 和 effect | [查看详情](./signals_example/README.md) |
+| [flutter_rust_bridge](./flutter_rust_bridge_example/README.md) | 2.13.0 | 在 Flutter 里调用 Rust | [查看详情](./flutter_rust_bridge_example/README.md) |
 
 ## 🚀 快速开始
 
 ### 环境要求
-- **Flutter SDK**: 状态管理、Drift 和 sqflite 示例需要 3.47+。ObjectBox 需要 3.29+，Realm 需要 3.27+
-- **Dart SDK**: 状态管理、Drift 和 sqflite 示例需要 3.13+。ObjectBox 需要 3.7+，Realm 需要 3.6+
+- **Flutter SDK**: 状态管理、Drift、sqflite 和 flutter_rust_bridge 示例需要 3.47+。ObjectBox 需要 3.29+，Realm 需要 3.27+
+- **Dart SDK**: 状态管理、Drift、sqflite 和 flutter_rust_bridge 示例需要 3.13+。ObjectBox 需要 3.7+，Realm 需要 3.6+
 - **开发工具**: Android Studio / VS Code
 - **Git**
+- **Rust**: 仅 `flutter_rust_bridge_example` 需要，通过 [rustup](https://rustup.rs) 安装 stable
 
 ### 克隆项目
 ```bash
@@ -126,6 +128,18 @@ flutter run
 ```
 
 把目录换成 `getx_example`、`bloc_example`、`riverpod_example`、`redux_example` 或 `signals_example` 即可。这些示例需要 Flutter 3.47+（Dart 3.13+）。
+
+### 运行 Flutter + Rust 示例
+
+[flutter_rust_bridge](https://pub.dev/packages/flutter_rust_bridge) 2.13.0 生成 Dart 和 Rust 之间的胶水。界面按同步调用、工作线程、结构体、错误、Rust 对象和 `Stream` 分成六节。
+
+需要 Rust stable。Android 构建还需要 NDK。改 `rust/src/api` 之后要重新生成代码，步骤写在示例 README 里。
+
+```bash
+cd flutter_rust_bridge_example
+flutter pub get
+flutter run
+```
 
 ## 🤝 贡献指南
 
