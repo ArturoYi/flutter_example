@@ -1,0 +1,52 @@
+@import '@fontsource/fraunces/600.css';
+@import '@fontsource/fraunces/600-italic.css';
+
+:root {
+  --brand-cook: #9a6b2f;
+  --vp-nav-logo-height: 30px;
+}
+
+.dark {
+  --brand-cook: #e7c98a;
+}
+
+.brand {
+  font-family: Fraunces, 'Iowan Old Style', Palatino, 'Songti SC', serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.brand-book {
+  font-style: italic;
+  color: var(--brand-cook);
+}
+
+.VPNavBarTitle .title .brand {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.VPHero .name .brand {
+  font-size: 1em;
+}
+
+.VPHero .name .brand-book {
+  -webkit-text-fill-color: var(--brand-cook);
+}
+
+html.dark .particle-word {
+  --pw-ink: #f6f1e7;
+}
+
+.VPHero .heading > .name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

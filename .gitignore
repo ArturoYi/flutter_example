@@ -78,3 +78,8 @@ app.*.map.json
 
 **/*.lock
 
+# VitePress
+node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
