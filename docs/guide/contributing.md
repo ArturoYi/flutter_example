@@ -6,9 +6,9 @@ description: 新增 package 时同时补上示例、生成规则、调试配置�
 
 ## 贡献
 
-一个 package 进入仓库时，示例、脚本、调试配置和文档一起提交。目录自带 `pubspec.yaml`，不引用其他示例。
+一个 package 进入仓库时，示例、脚本、调试配置和文档一起提交。示例放在 `example/` 下，目录自带 `pubspec.yaml`，不引用其他示例。
 
-示例目录写好后，页面上标明该 package 要求的 Flutter 与 Dart 下限。需要代码生成时，把命令加进 `scripts/demo.sh` 的 `generate_demo`。`.vscode/launch.json` 增加同名配置，`cwd` 指向新目录，`program` 为 `lib/main.dart`。`docs/` 下新增 Markdown，链接写入 `docs/.vitepress/config.ts` 的侧边栏，并归入存储、状态管理或其他。
+示例目录写好后，页面上标明该 package 要求的 Flutter 与 Dart 下限。需要代码生成时，把命令加进 `scripts/demo.sh` 的 `generate_demo`。`.vscode/launch.json` 增加同名配置，`cwd` 指向 `example/` 下的新目录，`program` 为 `lib/main.dart`。`docs/` 下新增 Markdown，链接写入 `docs/.vitepress/config.ts` 的侧边栏，并归入存储、状态管理或其他。
 
 文档页保留四项：版本、是否生成代码、示例调用过的 API、升级时需要核对的约束。改完后在仓库根目录执行 `npm run docs:build`，确认页面可以构建。本地预览执行 `npm run docs:dev`，地址为 `http://localhost:5173`，需要 Node.js 22 及以上。
 

@@ -13,7 +13,7 @@ description: scripts/demo.sh 在仓库根目录统一处理依赖安装、代码
 ./scripts/demo.sh clean [目录]
 ```
 
-不写目录时，`install`、`generate`、`clean` 遍历根目录下所有带 `pubspec.yaml` 的示例。`run` 必须指定目录，其后参数原样传给 `flutter run`，例如 `-d macos`。不带参数执行脚本时，输出用法和当前示例列表。
+不写目录时，`install`、`generate`、`clean` 遍历 `example/` 下所有带 `pubspec.yaml` 的示例。`run` 必须指定目录名，例如 `objectbox_example`，其后参数原样传给 `flutter run`，例如 `-d macos`。不带参数执行脚本时，输出用法和当前示例列表。
 
 `install` 在目标目录执行 `flutter pub get`。
 

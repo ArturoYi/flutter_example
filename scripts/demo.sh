@@ -7,12 +7,13 @@
 #   ./scripts/demo.sh run <demo> [flutter run 的参数...]
 #   ./scripts/demo.sh clean [demo]
 #
-# 不传 demo 时，install、generate、clean 处理仓库根目录下所有包含 pubspec.yaml 的示例。
-# run 必须指定一个示例。
+# 不传 demo 时，install、generate、clean 处理 example/ 下所有包含 pubspec.yaml 的示例。
+# run 必须指定一个示例。示例名是目录名，例如 objectbox_example。
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+EXAMPLES="$ROOT/example"
 
 usage() {
   cat <<'EOF'
@@ -45,7 +46,7 @@ EOF
 
 discover_demos() {
   local dir
-  for dir in "$ROOT"/*/; do
+  for dir in "$EXAMPLES"/*/; do
     if [[ -f "${dir}pubspec.yaml" ]]; then
       printf '%s\n' "${dir%/}"
     fi
@@ -58,13 +59,14 @@ resolve_targets() {
     return
   fi
 
-  local name="$1"
-  if [[ -f "$ROOT/$name/pubspec.yaml" ]]; then
-    printf '%s\n' "$ROOT/$name"
+  local name="${1%/}"
+  name="${name#example/}"
+  if [[ -f "$EXAMPLES/$name/pubspec.yaml" ]]; then
+    printf '%s\n' "$EXAMPLES/$name"
   elif [[ -f "$name/pubspec.yaml" ]]; then
     (cd "$name" && pwd)
   else
-    echo "找不到 demo: $name" >&2
+    echo "找不到 demo: $1" >&2
     exit 1
   fi
 }

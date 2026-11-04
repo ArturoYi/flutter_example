@@ -38,7 +38,7 @@
 ## 运行
 
 ```bash
-cd riverpod_example
+cd example/riverpod_example
 flutter pub get
 flutter run
 ```

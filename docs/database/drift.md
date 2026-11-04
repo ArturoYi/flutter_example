@@ -4,7 +4,7 @@ description: 我用 Drift 写类型安全的 SQLite 查询。
 
 # Drift
 
-我用 [Drift](https://pub.dev/packages/drift) ^2.35.3 和 `drift_flutter` ^0.3.1 在 SQLite 上生成查询，代码在 `drift_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
+我用 [Drift](https://pub.dev/packages/drift) ^2.35.3 和 `drift_flutter` ^0.3.1 在 SQLite 上生成查询，代码在 `example/drift_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
 
 表是一个类，列是 getter。类名 `TodoItems` 会变成表名 `todo_items`。布尔存成 0 和 1，日期精确到秒。查询在后台 isolate 里跑。
 

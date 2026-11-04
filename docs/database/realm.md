@@ -4,7 +4,7 @@ description: 我用 Realm 把人员和地址存在本地。
 
 # Realm
 
-我用 [realm](https://pub.dev/packages/realm) ^20.2.0 做本地对象存储，代码在 `realm_example/`。20.0 起没有 Atlas Device Sync，我只打开本地文件。Flutter 3.27 以上（Dart ^3.6.0）。
+我用 [realm](https://pub.dev/packages/realm) ^20.2.0 做本地对象存储，代码在 `example/realm_example/`。20.0 起没有 Atlas Device Sync，我只打开本地文件。Flutter 3.27 以上（Dart ^3.6.0）。
 
 模型类以 `_` 开头，标上 `@RealmModel()`。生成出来的是去掉下划线的 `Person`、`Address`。一对一关系必须是可选的。
 

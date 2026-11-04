@@ -4,7 +4,7 @@ description: 我用 Riverpod 在 widget 树外读状态。
 
 # Riverpod
 
-我用 [flutter_riverpod](https://pub.dev/packages/flutter_riverpod) ^3.4.3，代码在 `riverpod_example/`。Flutter 3.47 以上（Dart ^3.13.5）。我手写 Provider，没有用代码生成。
+我用 [flutter_riverpod](https://pub.dev/packages/flutter_riverpod) ^3.4.3，代码在 `example/riverpod_example/`。Flutter 3.47 以上（Dart ^3.13.5）。我手写 Provider，没有用代码生成。
 
 入口包一层 `ProviderScope`。计数、主题、待办、登录用 `Notifier`。商品目录用 `AsyncNotifier`，自带 loading 和 error。时钟是 `StreamProvider`。按 id 取值用 `family`。没有人听的时候，`autoDispose` 会释放。
 

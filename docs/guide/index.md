@@ -4,7 +4,7 @@ description: flutter-cookbook 以独立示例记录 Flutter package 的版本、
 
 # 项目介绍
 
-flutter-cookbook 收录已经接入过的 Flutter package。每个 package 单独占一个目录，目录之间不共享业务代码，因此一种方案的依赖和生成步骤不会混进另一种方案。文档页与目录一一对应，写明当前版本、是否需要代码生成、示例里调用过的 API，以及升级时需要核对的约束。接入时对照示例；依赖升级时，从同一页判断迁移落在哪些 API 上。
+flutter-cookbook 收录已经接入过的 Flutter package。每个 package 单独占 `example/` 下的一个目录，目录之间不共享业务代码，因此一种方案的依赖和生成步骤不会混进另一种方案。文档页与目录一一对应，写明当前版本、是否需要代码生成、示例里调用过的 API，以及升级时需要核对的约束。接入时对照示例；依赖升级时，从同一页判断迁移落在哪些 API 上。
 
 文档站由 VitePress 构建，源文件位于 `docs/`。预览文档需要 Node.js 22 及以上。运行示例只依赖该目录声明的 Flutter 与 Dart，不依赖 Node.js。
 
@@ -21,10 +21,10 @@ cd flutter_example
 
 | Package | 版本 | 目录 |
 | --- | --- | --- |
-| [ObjectBox](/database/objectbox) | 5.3.2 | `objectbox_example` |
-| [Realm](/database/realm) | 20.2.0 | `realm_example` |
-| [Drift](/database/drift) | 2.35.3 | `drift_example` |
-| [sqflite](/database/sqflite) | 2.4.5 | `sqflite_example` |
+| [ObjectBox](/database/objectbox) | 5.3.2 | `example/objectbox_example` |
+| [Realm](/database/realm) | 20.2.0 | `example/realm_example` |
+| [Drift](/database/drift) | 2.35.3 | `example/drift_example` |
+| [sqflite](/database/sqflite) | 2.4.5 | `example/sqflite_example` |
 
 ## 状态管理
 
@@ -32,12 +32,12 @@ cd flutter_example
 
 | Package | 版本 | 目录 |
 | --- | --- | --- |
-| [Provider](/state/provider) | 6.1.5+1 | `provider_example` |
-| [GetX](/state/getx) | 4.7.3 | `getx_example` |
-| [Bloc / Cubit](/state/bloc) | bloc 9.2.1 | `bloc_example` |
-| [Riverpod](/state/riverpod) | 3.4.3 | `riverpod_example` |
-| [Async Redux](/state/redux) | 29.2.3 | `redux_example` |
-| [Signals](/state/signals) | 7.1.0 | `signals_example` |
+| [Provider](/state/provider) | 6.1.5+1 | `example/provider_example` |
+| [GetX](/state/getx) | 4.7.3 | `example/getx_example` |
+| [Bloc / Cubit](/state/bloc) | bloc 9.2.1 | `example/bloc_example` |
+| [Riverpod](/state/riverpod) | 3.4.3 | `example/riverpod_example` |
+| [Async Redux](/state/redux) | 29.2.3 | `example/redux_example` |
+| [Signals](/state/signals) | 7.1.0 | `example/signals_example` |
 
 GetX 固定在稳定版 `get` 4.7.3，不使用 5.0 预发布。`redux` 与 `flutter_redux` 的 SDK 约束仍停留在 Dart 2，当前 Flutter 无法解析，因此 Redux 示例采用 Async Redux。Bloc 示例直接依赖 `flutter_bloc` 9.1.1，传递依赖为 `bloc` 9.2.1。
 

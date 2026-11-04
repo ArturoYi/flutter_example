@@ -53,7 +53,7 @@ Drift 把 SQLite 包成 Dart API，适合已经想用关系模型的本地数据
 1. **进入示例**
 
 ```bash
-cd drift_example
+cd example/drift_example
 ```
 
 2. **安装依赖**

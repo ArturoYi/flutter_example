@@ -38,7 +38,7 @@
 ## 运行
 
 ```bash
-cd redux_example
+cd example/redux_example
 flutter pub get
 flutter run
 ```

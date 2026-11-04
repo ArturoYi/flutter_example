@@ -4,7 +4,7 @@ description: 我用 sqflite 自己写 SQL。
 
 # sqflite
 
-我用 [sqflite](https://pub.dev/packages/sqflite) ^2.4.5 自己写 SQL，结果是 `Map`，再转成对象。代码在 `sqflite_example/`。桌面另加 `sqflite_common_ffi` ^2.4.5。Flutter 3.47 以上（Dart ^3.13.5）。没有代码生成。
+我用 [sqflite](https://pub.dev/packages/sqflite) ^2.4.5 自己写 SQL，结果是 `Map`，再转成对象。代码在 `example/sqflite_example/`。桌面另加 `sqflite_common_ffi` ^2.4.5。Flutter 3.47 以上（Dart ^3.13.5）。没有代码生成。
 
 Android、iOS、macOS 走插件。Linux 和 Windows 我改用 `sqfliteFfiInit()`，并把 `databaseFactory` 设成 `databaseFactoryFfi`。
 

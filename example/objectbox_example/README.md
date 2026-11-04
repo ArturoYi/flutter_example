@@ -49,7 +49,7 @@ ObjectBox 是一个专为移动和物联网设备设计的高性能 NoSQL 对象
 1. **克隆项目**
 ```bash
 git clone <repository-url>
-cd objectbox_example
+cd example/objectbox_example
 ```
 
 2. **安装依赖**

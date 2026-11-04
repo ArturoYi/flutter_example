@@ -19,17 +19,17 @@ npm run docs:dev
 
 | 示例项目 | 版本 | 描述 | 文档 |
 |----------|------|------|------|
-| [ObjectBox](./objectbox_example/README.md) | 5.3.2 | 高性能 NoSQL 对象数据库示例 | [文档](https://arturoyi.github.io/flutter_example/database/objectbox.html) |
-| [Realm](./realm_example/README.md) | 20.2.0 | 跨平台移动数据库引擎示例 | [文档](https://arturoyi.github.io/flutter_example/database/realm.html) |
-| [Drift](./drift_example/README.md) | 2.35.3 | 基于 SQLite 的类型安全关系库示例 | [文档](https://arturoyi.github.io/flutter_example/database/drift.html) |
-| [sqflite](./sqflite_example/README.md) | 2.4.5 | SQLite 插件的待办示例 | [文档](https://arturoyi.github.io/flutter_example/database/sqflite.html) |
-| [Provider](./provider_example/README.md) | 6.1.5+1 | InheritedWidget 风格的状态管理 | [文档](https://arturoyi.github.io/flutter_example/state/provider.html) |
-| [GetX](./getx_example/README.md) | 4.7.3 | 响应式状态、依赖注入和路由 | [文档](https://arturoyi.github.io/flutter_example/state/getx.html) |
-| [Bloc / Cubit](./bloc_example/README.md) | bloc 9.2.1 | 事件、Cubit 和可追踪的状态变化 | [文档](https://arturoyi.github.io/flutter_example/state/bloc.html) |
-| [Riverpod](./riverpod_example/README.md) | 3.4.3 | 不依赖 BuildContext 的 Provider | [文档](https://arturoyi.github.io/flutter_example/state/riverpod.html) |
-| [Async Redux](./redux_example/README.md) | 29.2.3 | 单一状态树。原版 redux 包无法在 Dart 3 上解析 | [文档](https://arturoyi.github.io/flutter_example/state/redux.html) |
-| [Signals](./signals_example/README.md) | 7.1.0 | signal、computed 和 effect | [文档](https://arturoyi.github.io/flutter_example/state/signals.html) |
-| [flutter_rust_bridge](./flutter_rust_bridge_example/README.md) | 2.13.0 | 在 Flutter 里调用 Rust | [文档](https://arturoyi.github.io/flutter_example/rust/) |
+| [ObjectBox](./example/objectbox_example/README.md) | 5.3.2 | 高性能 NoSQL 对象数据库示例 | [文档](https://arturoyi.github.io/flutter_example/database/objectbox.html) |
+| [Realm](./example/realm_example/README.md) | 20.2.0 | 跨平台移动数据库引擎示例 | [文档](https://arturoyi.github.io/flutter_example/database/realm.html) |
+| [Drift](./example/drift_example/README.md) | 2.35.3 | 基于 SQLite 的类型安全关系库示例 | [文档](https://arturoyi.github.io/flutter_example/database/drift.html) |
+| [sqflite](./example/sqflite_example/README.md) | 2.4.5 | SQLite 插件的待办示例 | [文档](https://arturoyi.github.io/flutter_example/database/sqflite.html) |
+| [Provider](./example/provider_example/README.md) | 6.1.5+1 | InheritedWidget 风格的状态管理 | [文档](https://arturoyi.github.io/flutter_example/state/provider.html) |
+| [GetX](./example/getx_example/README.md) | 4.7.3 | 响应式状态、依赖注入和路由 | [文档](https://arturoyi.github.io/flutter_example/state/getx.html) |
+| [Bloc / Cubit](./example/bloc_example/README.md) | bloc 9.2.1 | 事件、Cubit 和可追踪的状态变化 | [文档](https://arturoyi.github.io/flutter_example/state/bloc.html) |
+| [Riverpod](./example/riverpod_example/README.md) | 3.4.3 | 不依赖 BuildContext 的 Provider | [文档](https://arturoyi.github.io/flutter_example/state/riverpod.html) |
+| [Async Redux](./example/redux_example/README.md) | 29.2.3 | 单一状态树。原版 redux 包无法在 Dart 3 上解析 | [文档](https://arturoyi.github.io/flutter_example/state/redux.html) |
+| [Signals](./example/signals_example/README.md) | 7.1.0 | signal、computed 和 effect | [文档](https://arturoyi.github.io/flutter_example/state/signals.html) |
+| [flutter_rust_bridge](./example/flutter_rust_bridge_example/README.md) | 2.13.0 | 在 Flutter 里调用 Rust | [文档](https://arturoyi.github.io/flutter_example/rust/) |
 
 ## 🚀 快速开始
 
@@ -48,7 +48,7 @@ cd flutter_example
 
 ### 安装、生成、运行与清理
 
-在仓库根目录执行。不带示例名时，`install`、`generate`、`clean` 会处理全部示例；`./scripts/demo.sh` 会列出当前示例目录。
+在仓库根目录执行。示例都在 `example/` 下。不带示例名时，`install`、`generate`、`clean` 会处理全部示例；`./scripts/demo.sh` 会列出当前示例目录。脚本参数仍是目录名，例如 `objectbox_example`。
 
 ```bash
 # 为所有 demo 安装依赖

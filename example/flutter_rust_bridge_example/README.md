@@ -37,7 +37,7 @@
 需要 Flutter 3.47+（Dart 3.13+）和 [rustup](https://rustup.rs) 的 stable。示例带了 `.fvm`，指向本机的 stable。Android 还需要 NDK。
 
 ```bash
-cd flutter_rust_bridge_example
+cd example/flutter_rust_bridge_example
 flutter pub get
 flutter run
 ```

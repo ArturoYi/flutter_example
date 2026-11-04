@@ -47,7 +47,7 @@ Realm 20.0 起已经移除 Atlas Device Sync。本示例只演示本地数据库
 
 1. **进入示例**
 ```bash
-cd realm_example
+cd example/realm_example
 ```
 
 2. **安装依赖**

@@ -37,7 +37,7 @@
 ## 运行
 
 ```bash
-cd getx_example
+cd example/getx_example
 flutter pub get
 flutter run
 ```

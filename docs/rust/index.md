@@ -4,7 +4,7 @@ description: 我用 flutter_rust_bridge 在 Flutter 里调用 Rust。
 
 # flutter_rust_bridge
 
-我用 [flutter_rust_bridge](https://pub.dev/packages/flutter_rust_bridge) 2.13.0 在 Flutter 里调用 Rust，代码在 `flutter_rust_bridge_example/`。
+我用 [flutter_rust_bridge](https://pub.dev/packages/flutter_rust_bridge) 2.13.0 在 Flutter 里调用 Rust，代码在 `example/flutter_rust_bridge_example/`。
 
 Flutter 3.47 以上（Dart ^3.13.5），还要 Rust stable。Android 还要 NDK。
 

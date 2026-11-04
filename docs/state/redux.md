@@ -4,7 +4,7 @@ description: 我用 Async Redux 把状态放在一棵树上。
 
 # Async Redux
 
-我用 [async_redux](https://pub.dev/packages/async_redux) ^29.2.3，代码在 `redux_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
+我用 [async_redux](https://pub.dev/packages/async_redux) ^29.2.3，代码在 `example/redux_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
 
 原版 `redux` 和 `flutter_redux` 还停在 Dart 2，当前 Flutter 装不上，所以我用 Async Redux。状态是一棵不可变的树。改状态看动作的 `reduce`，异步也可以直接返回 `Future`。
 

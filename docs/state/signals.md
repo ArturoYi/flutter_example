@@ -4,7 +4,7 @@ description: 我用 Signals 按读到的值刷新界面。
 
 # Signals
 
-我用 [signals](https://pub.dev/packages/signals) ^7.1.0，Flutter 组件来自 `package:signals/signals_flutter.dart`。代码在 `signals_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
+我用 [signals](https://pub.dev/packages/signals) ^7.1.0，Flutter 组件来自 `package:signals/signals_flutter.dart`。代码在 `example/signals_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
 
 读到哪个 `.value`，就订阅哪个。`computed` 在依赖没变时不算。`effect` 可以返回清理函数，搜索防抖的 `Timer` 会在下一次输入时取消。`batch` 把几次写入合成一次通知。
 

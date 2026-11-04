@@ -35,7 +35,7 @@
 ## 运行
 
 ```bash
-cd bloc_example
+cd example/bloc_example
 flutter pub get
 flutter run
 ```

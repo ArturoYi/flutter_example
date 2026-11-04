@@ -4,7 +4,7 @@ description: 我用 ObjectBox 把任务存在本地。
 
 # ObjectBox
 
-我用 [ObjectBox](https://objectbox.io/) ^5.3.2 做本地对象存储，代码在 `objectbox_example/`。还要 `objectbox_flutter_libs`，模型用 `objectbox_generator` 生成。
+我用 [ObjectBox](https://objectbox.io/) ^5.3.2 做本地对象存储，代码在 `example/objectbox_example/`。还要 `objectbox_flutter_libs`，模型用 `objectbox_generator` 生成。
 
 Flutter 3.29 以上（Dart ^3.7.0）。iOS 用 15，macOS 我按当前模板用 12。
 

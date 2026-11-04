@@ -4,7 +4,7 @@ description: 我用 Cubit 和 Bloc 改状态。
 
 # Bloc / Cubit
 
-我用 [flutter_bloc](https://pub.dev/packages/flutter_bloc) ^9.1.1 和 [bloc_concurrency](https://pub.dev/packages/bloc_concurrency) ^0.3.0，代码在 `bloc_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
+我用 [flutter_bloc](https://pub.dev/packages/flutter_bloc) ^9.1.1 和 [bloc_concurrency](https://pub.dev/packages/bloc_concurrency) ^0.3.0，代码在 `example/bloc_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
 
 简单状态用 Cubit，直接 `emit`。待办用 Bloc：先收事件，再改状态。重建看 `BlocBuilder` 和 `BlocSelector`，弹提示、清购物车放在 `BlocListener`。
 

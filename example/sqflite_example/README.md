@@ -54,7 +54,7 @@ Android、iOS、macOS 使用 sqflite 插件。Linux 和 Windows 没有这个插�
 1. **进入示例**
 
 ```bash
-cd sqflite_example
+cd example/sqflite_example
 ```
 
 2. **安装依赖**

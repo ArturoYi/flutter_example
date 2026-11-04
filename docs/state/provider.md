@@ -4,7 +4,7 @@ description: 我用 provider 把状态放在 widget 树上。
 
 # Provider
 
-我用 [provider](https://pub.dev/packages/provider) ^6.1.5+1，代码在 `provider_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
+我用 [provider](https://pub.dev/packages/provider) ^6.1.5+1，代码在 `example/provider_example/`。Flutter 3.47 以上（Dart ^3.13.5）。
 
 状态跟着 widget 子树走，离开就 `dispose`。`context.select` 可以只听一个字段。API 放 `Provider`，可变状态放 `ChangeNotifierProvider`，异步值放 `FutureProvider` 或 `StreamProvider`。
 
