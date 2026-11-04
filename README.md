@@ -35,31 +35,52 @@ git clone <repository-url>
 cd flutter_example
 ```
 
-### 安装与清理依赖
+### 安装、生成、运行与清理
 
-在仓库根目录执行：
+在仓库根目录执行。不带示例名时，`install`、`generate`、`clean` 会处理全部示例；`./scripts/demo.sh` 会列出当前示例目录。
 
 ```bash
 # 为所有 demo 安装依赖
 ./scripts/demo.sh install
 
+# 为需要代码生成的 demo 重新生成代码
+./scripts/demo.sh generate
+
 # 清理所有 demo 的本地依赖产物和构建缓存
 ./scripts/demo.sh clean
 ```
 
-只处理某一个示例时，在命令后加上目录名：
+只处理某一个示例时，在命令后加上目录名。`run` 必须指定示例，后面的参数会传给 `flutter run`：
 
 ```bash
 ./scripts/demo.sh install objectbox_example
-./scripts/demo.sh clean realm_example
-./scripts/demo.sh install drift_example
-./scripts/demo.sh install sqflite_example
-./scripts/demo.sh install provider_example
+./scripts/demo.sh generate drift_example
+./scripts/demo.sh generate realm_example
+./scripts/demo.sh generate flutter_rust_bridge_example
+./scripts/demo.sh run provider_example -d macos
+./scripts/demo.sh clean sqflite_example
 ```
 
-`install` 会在每个示例里执行 `flutter pub get`。示例自带 `.fvm` 时使用该 Flutter SDK，否则使用当前环境中的 Flutter。
+`install` 会在每个示例里执行 `flutter pub get`。
 
-`clean` 会执行 `flutter clean`，并删除各示例目录内的 `.dart_tool`、`build`、CocoaPods、Gradle 等本地依赖和缓存。不会删除全局 `~/.pub-cache`，也不会改动 `.fvm` 里的 Flutter SDK。
+`generate` 按示例选择生成命令：
+
+| 示例 | 命令 |
+|------|------|
+| `objectbox_example`、`drift_example` | `dart run build_runner build --delete-conflicting-outputs` |
+| `realm_example` | `dart run realm generate` |
+| `flutter_rust_bridge_example` | `flutter_rust_bridge_codegen generate` |
+| 其余示例 | 跳过 |
+
+`flutter_rust_bridge` 的生成器要和依赖里的 2.13.0 一致。脚本会使用 PATH 或 `~/.cargo/bin` 里的 `flutter_rust_bridge_codegen`；还没有时先执行：
+
+```bash
+cargo install flutter_rust_bridge_codegen --version 2.13.0 --locked
+```
+
+`run` 使用和 `install` 相同的 Flutter。Flutter 的查找顺序是：示例自带的 `.fvm/flutter_sdk`、当前 PATH、`~/fvm/versions/stable`、`fvm flutter`。`drift_example`、`realm_example`、`sqflite_example` 没有提交 `.fvm`，会落到后面几项。
+
+`clean` 会执行 `flutter clean`，并删除各示例目录内的 `.dart_tool`、`build`、CocoaPods、Gradle 等本地依赖和缓存。`flutter_rust_bridge_example` 还会删除 `rust/target`，以及 `rust_builder` 和 Cargokit 的本地构建缓存。不会删除全局 `~/.pub-cache`，也不会改动 `.fvm` 里的 Flutter SDK。
 
 ## 🛠️ 运行示例
 
@@ -68,10 +89,9 @@ cd flutter_example
 ObjectBox 5.3.2 需要 Flutter 3.29+（Dart 3.7+）和 iOS 15。当前 Flutter 模板的 macOS 最低版本是 12。
 
 ```bash
-cd objectbox_example
-flutter pub get
-dart run build_runner build
-flutter run
+./scripts/demo.sh install objectbox_example
+./scripts/demo.sh generate objectbox_example
+./scripts/demo.sh run objectbox_example
 ```
 
 ### 运行 Realm 示例
@@ -79,10 +99,9 @@ flutter run
 Realm 20.2.0 需要 Flutter 3.27+（Dart 3.6+）。20.0 起已移除 Atlas Device Sync，本示例只使用本地数据库。
 
 ```bash
-cd realm_example
-flutter pub get
-dart run realm generate
-flutter run
+./scripts/demo.sh install realm_example
+./scripts/demo.sh generate realm_example
+./scripts/demo.sh run realm_example
 ```
 
 ### 运行 Drift 示例
@@ -90,10 +109,9 @@ flutter run
 Drift 2.35.3 在 SQLite 上生成类型安全的查询。改表之后需要重新生成代码。
 
 ```bash
-cd drift_example
-flutter pub get
-dart run build_runner build
-flutter run
+./scripts/demo.sh install drift_example
+./scripts/demo.sh generate drift_example
+./scripts/demo.sh run drift_example
 ```
 
 ### 运行 sqflite 示例
@@ -101,9 +119,8 @@ flutter run
 sqflite 2.4.5 直接执行 SQL。Android、iOS、macOS 使用插件；Linux 和 Windows 使用 `sqflite_common_ffi`。
 
 ```bash
-cd sqflite_example
-flutter pub get
-flutter run
+./scripts/demo.sh install sqflite_example
+./scripts/demo.sh run sqflite_example
 ```
 
 ### 运行状态管理示例
@@ -122,23 +139,21 @@ flutter run
 `redux` 5.0.0 和 `flutter_redux` 0.10.0 的 SDK 约束仍是 Dart 2，当前 Flutter 不能依赖它们，所以 Redux 示例用 Async Redux。
 
 ```bash
-cd provider_example
-flutter pub get
-flutter run
+./scripts/demo.sh install provider_example
+./scripts/demo.sh run provider_example
 ```
 
-把目录换成 `getx_example`、`bloc_example`、`riverpod_example`、`redux_example` 或 `signals_example` 即可。这些示例需要 Flutter 3.47+（Dart 3.13+）。
+把目录换成 `getx_example`、`bloc_example`、`riverpod_example`、`redux_example` 或 `signals_example` 即可。这些示例不需要代码生成，需要 Flutter 3.47+（Dart 3.13+）。
 
 ### 运行 Flutter + Rust 示例
 
 [flutter_rust_bridge](https://pub.dev/packages/flutter_rust_bridge) 2.13.0 生成 Dart 和 Rust 之间的胶水。界面按同步调用、工作线程、结构体、错误、Rust 对象和 `Stream` 分成六节。
 
-需要 Rust stable。Android 构建还需要 NDK。改 `rust/src/api` 之后要重新生成代码，步骤写在示例 README 里。
+需要 Rust stable。Android 构建还需要 NDK。改 `rust/src/api` 之后，用上面的 `generate` 重新生成胶水。生成器安装和更多说明写在示例 README 里。
 
 ```bash
-cd flutter_rust_bridge_example
-flutter pub get
-flutter run
+./scripts/demo.sh install flutter_rust_bridge_example
+./scripts/demo.sh run flutter_rust_bridge_example
 ```
 
 ## 🤝 贡献指南
